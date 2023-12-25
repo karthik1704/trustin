@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    {% include 'includes/head.html' %}
+    {% block extrahead %}
+    <script src="{% url 'admin:jsi18n' %}"></script>
+    {{ media }}
+    {% endblock %}
+    {% block extrastyle %}
+    <link  rel="stylesheet" href="{% static 'css/custom_common.css' %}" />
+
+    {% endblock extrastyle %}
+</head>
+
+<body>
+    {% block pre_loader %}
+    {% include 'includes/pre-loader.html' %}
+    {% endblock pre_loader %}
+
+    {% block sidebar %}
+    {% include 'includes/sidebar.html' %}
+    {% endblock sidebar %}
+
+    {% block navigation %}
+    {% include 'includes/navigation.html' %}
+    {% endblock navigation %}
+
+    <!-- [ Main Content ] start -->
+    <section class="pcoded-main-container">
+        <div class="pcoded-content">
+            {% comment %} {% block breadcrumbs %}
+            {% include 'includes/breadcrumbs.html' %}
+            {% endblock breadcrumbs %} {% endcomment %}
+
+            {% block content %}{% endblock content %}
+        </div>
+    </section>
+
+ 
+    {% block extrajs %}
+    {{ block.super }}
+    {% endblock extrajs %}
+    {% include 'includes/scripts.html' %}
+</body>
+
+</html>

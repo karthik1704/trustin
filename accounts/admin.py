@@ -72,7 +72,15 @@ class UserAdmin(BaseUserAdmin):
 class AnalystAdmin(UserAdmin):
     list_display = ("email",)
     ordering = ("email",)  # Use the actual field in your model
+class HodAdmin(UserAdmin):
+    list_display = ("email",)
+    ordering = ("email",)  # Use the actual field in your model
+class ManagementAdmin(UserAdmin):
+    list_display = ("email",)
+    ordering = ("email",)  # Use the actual field in your model
 
 
 admin.site.register(MyUser, UserAdmin)
 admin.site.register(Analyst, AnalystAdmin)
+admin.site.register(Hod, HodAdmin)
+admin.site.register(Management, ManagementAdmin)

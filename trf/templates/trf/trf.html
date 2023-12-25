@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <title>TRF Form</title>
+    {% include 'includes/head.html' %}
+    {% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'assets/css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    {% endblock extrastyle %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script src="{% static 'trf/js/trf_script.js' %}"></script>
+
+</head>
+
+<body>
+    <div class="mx-auto  d-flex align-items-center justify-content-center">
+
+        <div class="col-12 p-5 ">
+            <div class="row">
+                <form method="post" action="/trf/TRF-2022-2023-4/">
+
+
+
+
+                    {% csrf_token %}
+                    <input type="hidden" name="trf_code" id="id_trf_code" value="{{trf_code}}" />
+                    <!-- {{ form.non_field_errors }}
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.branch.errors }}
+                                {{ form.branch.label_tag }}
+                                {{ form.branch }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.customer.errors }}
+                                {{ form.customer.label_tag }}
+                                {{ form.customer }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.branch.errors }}
+                                {{ form.branch.label_tag }}
+                                {{ form.branch }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.customer.errors }}
+                                {{ form.customer.label_tag }}
+                                {{ form.customer }}
+                            </div>
+                        </div>
+                    </div> -->
+
+                    {% for field in form %}
+                        <div class="fieldWrapper">
+                            {{ field.errors }}
+                            {{ field.label_tag }} {{ field }}
+                            {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                    
+                        {% endfor %}
+                    <br />
+
+                    <!-- <h2 class="mt-2">Sample Detail</h2>
+
+
+                        {% for form in form.sample_details %}
+                        <fieldset>
+                            {% for field in form %}
+                            <div class="fieldWrapper">
+                                {{ field.errors }}
+                                {{ field.label_tag }} {{ field }}
+                                {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </fieldset>
+                        {% endfor %} -->
+                    {{ formset.management_form }}
+                    <h2 class="mt-2">Testing Detail</h2>
+                    <!-- {% for form in form.testings %}
+                        <fieldset>
+                            {% for field in form %}
+                            <div class="fieldWrapper">
+                                {{ field.errors }}
+                                {{ field.label_tag }} {{ field }}
+                                {% if field.help_text %}
+                                <p class="help">{{ field.help_text|safe }}</p>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </fieldset>
+                        {% endfor %} -->
+            </div>
+
+            <table class="table table-bordered" id="myTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Test Parameters</th>
+                        <th scope="col">Test Method</th>
+                        <th scope="col">Test Type</th>
+                        <th scope="col">Remove</th>
+                        <th scope="col">Priority</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <!-- <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary remove-row"
+                                        id="remove-button">Remove</button>
+
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary move-up" id="up-button">Up</button>
+                                    <button type="button" class="btn btn-primary move-down"
+                                        id="down-button">Down</button>
+                                    <input type="text" name="priority" id="priority" class="order" value="1"/>
+                                </td>
+                            </tr> -->
+
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary mt-2" type="submit">Save</button>
+            </form>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

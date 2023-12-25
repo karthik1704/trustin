@@ -1,0 +1,9 @@
+.logo {
+    width: 100px;
+    height: 27px;
+}
+
+.selector-chooser{
+    display: flex;
+    flex-direction: column;
+}

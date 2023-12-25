@@ -33,7 +33,8 @@ AUTH_USER_MODEL = "accounts.MyUser"
 
 INSTALLED_APPS = [
     "admin_gradient.apps.AdminGradientConfig",
-    # 'admin_datta.apps.AdminDattaConfig',
+    # 'admin_atlantis.apps.AdminAtlantisConfig',
+
     # "django.contrib.admin",
     "trustin.apps.MyAdminConfig",
     "django.contrib.auth",
@@ -41,12 +42,22 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # third-party
+    'mdeditor',
+    'rest_framework',
+    'django_filters',
+
+
     # apps
     "accounts",
     "customers",
     "samples",
     "sample_requests",
     "branches",
+    "terms",
+    "notes",
+    "quotations",
+    "trf",
 ]
 
 
@@ -123,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -134,6 +145,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -144,3 +160,25 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "/"
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = #sender's email-id
+# EMAIL_HOST_PASSWORD = #password associated with above email-id
+
+X_FRAME_OPTIONS = 'SAMEORIGIN' 
+MDEDITOR_CONFIGS = {
+    'default':{
+        "language":'en',
+    }
+}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
