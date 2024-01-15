@@ -1,5 +1,6 @@
 input[type="url"],
 input[type="number"],
+input[type="date"],
 textarea {
     display: block;
     width: 100%;
@@ -14,6 +15,28 @@ textarea {
     appearance: none;
     border-radius: 0.375rem;
     transition: 0.2s ease;
+}
+
+select:disabled,input:disabled {
+    background-color: #d2d6da;
+  
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 7px;
+    /* margin-right: 2rem; */
+    /* padding-right: 2rem; */
+}
+
+ul.errorlist {
+    margin: 0;
+    padding: 0;
 }
 
 textarea {

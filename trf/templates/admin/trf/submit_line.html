@@ -1,0 +1,8 @@
+{% extends "admin/submit_line.html" %}
+{% load i18n admin_urls %}
+
+{% block submit-row %}
+{{ block.super }}
+<button type="submit" name="_initiate" class="btn btn-sm btn-warning">{% trans 'Initiate' %}</button>
+
+{% endblock %}

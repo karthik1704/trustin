@@ -1,0 +1,15 @@
+
+
+ROLE_HOD = 'HOD'
+ROLE_MARKETING = 'MARKETING'
+ROLE_ADMIN = 'ADMIN'
+ROLE_MANAGEMENT = 'MANAGEMENT'
+ROLE_ANALYST = 'ANALYST'
+
+ROLE_CHOICES = [
+    (ROLE_HOD, 'HOD'),
+    (ROLE_MARKETING, 'Marketing'),
+    (ROLE_ADMIN, 'Admin'),
+    (ROLE_MANAGEMENT, 'Management'),
+    (ROLE_ANALYST, 'Analyst'),
+]

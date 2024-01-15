@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from accounts.models import Hod
+from accounts.models import Hod, Marketing
 
 from branches.models import Branch
 from samples.models import Product
@@ -69,7 +69,7 @@ class CustomerFollowUp(models.Model):
     customer = models.ForeignKey(Customer, related_name='followup_customer', on_delete=models.CASCADE)
     sample = models.ForeignKey(Product, related_name='cus_follow_sample', on_delete=models.DO_NOTHING)
     marketing_status = models.CharField(choices=MARKETING_STATUS, max_length=30)
-    assign_to = models.ForeignKey(Hod, on_delete=models.DO_NOTHING,related_name='follow_assign')
+    assign_to = models.ForeignKey(Marketing, on_delete=models.DO_NOTHING,related_name='follow_assign')
     date = models.DateField(default=timezone.now)
     remarks = models.TextField(blank=True, default="")
 

@@ -31,9 +31,9 @@ class SampleRequest(models.Model):
     sample_quantity_sent = models.CharField(max_length=100,blank=True, null=True)
     date_of_mfg = models.DateField()
     date_of_exp = models.DateField()
-    sampling_by = models.CharField(choices=SAMPLING_BY, max_length=50)
     sample_manufactured_by = models.CharField(max_length=255)
     sample_storage_condition = models.CharField(max_length=255, blank=True, null=True)
+    sampling_by = models.CharField(choices=SAMPLING_BY, max_length=50)
     testing_process = models.CharField(choices=TESTING_PROCESS, max_length=100)
 
 

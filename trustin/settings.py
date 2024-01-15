@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "notes",
     "quotations",
     "trf",
+    "registrations",
 ]
 
 
@@ -82,7 +83,7 @@ ROOT_URLCONF = "trustin.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / "templates",],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -106,21 +107,21 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": "trustin",
-    #     "HOST": "localhost",
-    #     "USER": "postgres",
-    #     "PASSWORD": "postgres",
-    # }
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST"),
-        "PORT": env("DB_PORT"),
+        "NAME": "trustin",
+        "HOST": "localhost",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
     }
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": env("DB_NAME"),
+    #     "USER": env("DB_USER"),
+    #     "PASSWORD": env("DB_PASSWORD"),
+    #     "HOST": env("DB_HOST"),
+    #     "PORT": env("DB_PORT"),
+    # }
 }
 
 

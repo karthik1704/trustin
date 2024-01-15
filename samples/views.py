@@ -21,4 +21,4 @@ class TestParameterListView(ListAPIView):
         
         test_types = ' '.join(test_types_params).split(',')
 
-        return self.model.objects.filter(test_type__in=test_types)
+        return self.model.objects.filter(product=product_id,test_type__in=test_types)

@@ -5,7 +5,54 @@ console.log('hi');
 
 $(document).ready(function () {
 
+    let test_data = []
 
+    var trf_code = $('#id_trf_code').val();
+    $.ajax({
+        url: `/trf/tdetail/${trf_code}/`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var tbody = $("#myTable tbody");
+
+            var rows = $.map(data, (d, idx) => {
+
+                test_data = data
+                var newRow = $("<tr>");
+
+                var cell1 = $("<td>").text(idx + 1);
+                var cell2 = $("<td>").text(d.test.testing_parameters).append(
+                    `
+                   <input type="hidden"  name="testing-${idx}-test" id="id_testing-${idx}-test" value="${d.test.id}" />
+                   <input type="hidden" name="testing-${idx}-id" id="id_testing-${idx}-id" value="${d.id}">
+
+                   `
+                );
+                var cell3 = $("<td>").text(d.test.method_or_spec);
+                var cell4 = $("<td>").text(d.test.test_type.name);
+                var cell5 = $("<td>").append('<button type="button" class="btn btn-primary remove-row" id="remove-button">Remove</button>');
+                var cell5 = $("<td>").append('<button type="button" class="btn btn-primary remove-row" id="remove-button">Remove</button>');
+                var cell6 = $("<td>").append(` <button type="button" class="btn btn-primary move-up" id="up-button">Up</button>
+                   <button type="button" class="btn btn-primary move-down"
+                       id="down-button">Down</button>
+                   <input type="hidden" name="testing-${idx}-priority_order" id="id_testing-${idx}-priority_order" class="order" value="${d.priority_order}" />
+                
+                   `);
+
+                return newRow.append(cell1, cell2, cell3, cell4, cell5, cell6);
+
+
+            })
+            $('#id_testing-TOTAL_FORMS').val(rows.length)
+            tbody.empty().append(rows);
+            console.log(data)
+            // Initial button state
+            updateButtonState();
+        },
+        error: function (error) {
+            console.error('Error fetching data:', error);
+        }
+    });
 
     $('#myTable').on('click', '.move-up', function () {
         var row = $(this).closest('tr');
@@ -117,7 +164,7 @@ $(document).ready(function () {
         //             <button type="button" class="btn btn-primary move-down"
         //                 id="down-button">Down</button>
         //             <input type="text" name="testing-${idx}-priority_order" id="id_testing-${idx}-priority_order" class="order" value="${idx + 1}" />
-                 
+
         //             `);
 
         //             return newRow.append(cell1, cell2, cell3, cell4, cell5, cell6);
@@ -133,40 +180,43 @@ $(document).ready(function () {
         //     }
         // });
 
-       getTestParameters(product, checkTestType)
+        getTestParameters(product, checkTestType)
 
     })
 
-    function getTestParameters(product, test_type){
+    function getTestParameters(product, test_type) {
 
-         $.ajax({
+        $.ajax({
             url: `/samples/tests/${product}/?test_type=${test_type.join(',')}`,
             type: 'GET',
             dataType: 'json',
             success: function (data) {
+                   
+                const result  = data.filter(item2 => !test_data.some(item1 => item1.test.id === item2.id));
+                const tdata = [...test_data, ...result]
                 var tbody = $("#myTable tbody");
                 tbody.empty().text('Loading...');
-                var rows = $.map(data, (d, idx) => {
+                var rows = $.map(tdata, (d, idx) => {
 
-
+                 
                     var newRow = $("<tr>");
 
                     var cell1 = $("<td>").text(idx + 1);
-                    var cell2 = $("<td>").text(d.testing_parameters).append(
-                    `
-                    <input type="text"  name="testing-${idx}-test" id="id_testing-${idx}-test" value="${d.id}" />
-                    <input type="hidden" name="testing-${idx}-id" id="id_testing-${idx}-id">
+                    var cell2 = $("<td>").text(d.test ? d.test.testing_parameters :d.testing_parameters).append(
+                        `
+                    <input type="hidden"  name="testing-${idx}-test" id="id_testing-${idx}-test" value="${d.test ? d.test.id :d.id}" />
+                    <input type="hidden" name="testing-${idx}-id" id="id_testing-${idx}-id" ${d.test ? `value = ${d.test.id}` : ''}>
 
                     `
                     );
-                    var cell3 = $("<td>").text(d.method_or_spec);
-                    var cell4 = $("<td>").text(d.test_type);
+                    var cell3 = $("<td>").text(d.test ? d.test.method_or_spec : d.method_or_spec);
+                    var cell4 = $("<td>").text(d.test ? d.test.test_type.name:d.test_type.name);
                     var cell5 = $("<td>").append('<button type="button" class="btn btn-primary remove-row" id="remove-button">Remove</button>');
                     var cell5 = $("<td>").append('<button type="button" class="btn btn-primary remove-row" id="remove-button">Remove</button>');
                     var cell6 = $("<td>").append(` <button type="button" class="btn btn-primary move-up" id="up-button">Up</button>
                     <button type="button" class="btn btn-primary move-down"
                         id="down-button">Down</button>
-                    <input type="text" name="testing-${idx}-priority_order" id="id_testing-${idx}-priority_order" class="order" value="${idx + 1}" />
+                    <input type="hidden" name="testing-${idx}-priority_order" id="id_testing-${idx}-priority_order" class="order" value="${idx + 1}" />
                  
                     `);
 
@@ -176,7 +226,7 @@ $(document).ready(function () {
                 })
                 $('#id_testing-TOTAL_FORMS').val(rows.length)
                 tbody.empty().append(rows);
-                console.log(data)
+                console.log(tdata)
             },
             error: function (error) {
                 console.error('Error fetching data:', error);
@@ -186,52 +236,5 @@ $(document).ready(function () {
 
 })
 
-
-$(document).ready(function(){
-        var trf_code = $('#id_trf_code').val();
-        $.ajax({
-           url: `/trf/tdetail/${trf_code}/`,
-           type: 'GET',
-           dataType: 'json',
-           success: function (data) {
-               var tbody = $("#myTable tbody");
-
-               var rows = $.map(data, (d, idx) => {
-
-
-                   var newRow = $("<tr>");
-
-                   var cell1 = $("<td>").text(idx + 1);
-                   var cell2 = $("<td>").text(d.test.testing_parameters).append(
-                   `
-                   <input type="text"  name="testing-${idx}-test" id="id_testing-${idx}-test" value="${d.test.id}" />
-                   <input type="hidden" name="testing-${idx}-id" id="id_testing-${idx}-id">
-
-                   `
-                   );
-                   var cell3 = $("<td>").text(d.test.method_or_spec);
-                   var cell4 = $("<td>").text(d.test.test_type);
-                   var cell5 = $("<td>").append('<button type="button" class="btn btn-primary remove-row" id="remove-button">Remove</button>');
-                   var cell5 = $("<td>").append('<button type="button" class="btn btn-primary remove-row" id="remove-button">Remove</button>');
-                   var cell6 = $("<td>").append(` <button type="button" class="btn btn-primary move-up" id="up-button">Up</button>
-                   <button type="button" class="btn btn-primary move-down"
-                       id="down-button">Down</button>
-                   <input type="text" name="testing-${idx}-priority_order" id="id_testing-${idx}-priority_order" class="order" value="${d.priority_order}" />
-                
-                   `);
-
-                   return newRow.append(cell1, cell2, cell3, cell4, cell5, cell6);
-
-
-               })
-               $('#id_testing-TOTAL_FORMS').val(rows.length)
-               tbody.empty().append(rows);
-               console.log(data)
-           },
-           error: function (error) {
-               console.error('Error fetching data:', error);
-           }
-       });
-})
 
 

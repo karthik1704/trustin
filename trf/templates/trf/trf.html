@@ -4,6 +4,8 @@
 <head>
     {% load static %}
     <title>TRF Form</title>
+    <meta charset="UTF-8" />
+
     {% include 'includes/head.html' %}
     {% block extrastyle %}
     <link rel="stylesheet" href="{% static 'assets/css/forms.css' %}">
@@ -18,49 +20,224 @@
 <body>
     <div class="mx-auto  d-flex align-items-center justify-content-center">
 
-        <div class="col-12 p-5 ">
+        <div class="col-8 p-5 ">
             <div class="row">
-                <form method="post" action="/trf/TRF-2022-2023-4/">
+                <h1 class="text-center">Test Form Request</h1>
+                <form method="post" action="/trf/{{trf_code}}/" enctype="multipart/form-data">
 
 
 
 
                     {% csrf_token %}
                     <input type="hidden" name="trf_code" id="id_trf_code" value="{{trf_code}}" />
-                    <!-- {{ form.non_field_errors }}
+                    {% if form.errors %}
+                    <ul class="errorlist">
+                        {% for field, error in form.errors.items %}
+                        <li>{{ field }}: {{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {{ form.non_field_errors }}
                     <div class="row">
                         <div class="col">
                             <div class="fieldWrapper">
-                                {{ form.branch.errors }}
                                 {{ form.branch.label_tag }}
                                 {{ form.branch }}
+                                {{ form.branch.errors }}
                             </div>
                         </div>
                         <div class="col">
                             <div class="fieldWrapper">
-                                {{ form.customer.errors }}
                                 {{ form.customer.label_tag }}
                                 {{ form.customer }}
+                                {{ form.customer.errors }}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="fieldWrapper">
-                                {{ form.branch.errors }}
-                                {{ form.branch.label_tag }}
-                                {{ form.branch }}
+                                {{ form.sample_id.label_tag }}
+                                {{ form.sample_id }}
+                                {{ form.sample_id.errors }}
                             </div>
                         </div>
                         <div class="col">
                             <div class="fieldWrapper">
-                                {{ form.customer.errors }}
-                                {{ form.customer.label_tag }}
-                                {{ form.customer }}
+                                {{ form.sample_name.label_tag }}
+                                {{ form.sample_name }}
+                                {{ form.sample_name.errors }}
                             </div>
                         </div>
-                    </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.description.label_tag }}
+                                {{ form.description }}
+                                {{ form.description.errors }}
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.manufactured_by.label_tag }}
+                                {{ form.manufactured_by }}
+                                {{ form.manufactured_by.errors }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.batch_or_lot_no.label_tag }}
+                                {{ form.batch_or_lot_no }}
+                                {{ form.batch_or_lot_no.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.manufactured_date.label_tag }}
+                                {{ form.manufactured_date }}
+                                {{ form.manufactured_date.errors }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.expiry_date.label_tag }}
+                                {{ form.expiry_date }}
+                                {{ form.expiry_date.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.batch_size.label_tag }}
+                                {{ form.batch_size }}
+                                {{ form.batch_size.errors }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.format_name.label_tag }}
+                                {{ form.format_name }}
+                                {{ form.format_name.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.no_of_samples.label_tag }}
+                                {{ form.no_of_samples }}
+                                {{ form.no_of_samples.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.sample_storage_condition.label_tag }}
+                                {{ form.sample_storage_condition }}
+                                {{ form.sample_storage_condition.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.sampling_by.label_tag }}
+                                {{ form.sampling_by|safe }}
+                                {{ form.sampling_by.errors }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.sample_disposal_process.label_tag }}
+                                {{ form.sample_disposal_process|safe }}
+                                {{ form.sample_disposal_process.errors }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.testing_process.label_tag }}
+                                {{ form.testing_process }}
+                                {{ form.testing_process.errors }}
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.report_sent_by.label_tag }}
+                                {{ form.report_sent_by }}
+                                {{ form.report_sent_by.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.fail_statement_sent.label_tag }}
+                                {{ form.fail_statement_sent|safe }}
+                                {{ form.fail_statement_sent.errors }}
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.specific_decision_rule.label_tag }}
+                                {{ form.specific_decision_rule }}
+                                {{ form.specific_decision_rule.errors }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.binary_decision_rule.label_tag }}
+                                {{ form.binary_decision_rule|safe }}
+                                {{ form.binary_decision_rule.errors }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.submission_of_documents.label_tag }}
+                                {{ form.submission_of_documents }}
+                                {{ form.submission_of_documents.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.nabl_logo.label_tag }}
+                                {{ form.nabl_logo }}
+                                {{ form.nabl_logo.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 
                     {% for field in form %}
                         <div class="fieldWrapper">
                             {{ field.errors }}
@@ -70,80 +247,53 @@
                             {% endif %}
                         </div>
                     
-                        {% endfor %}
-                    <br />
-
-                    <!-- <h2 class="mt-2">Sample Detail</h2>
+                        {% endfor %} 
+                    <br />  -->
 
 
-                        {% for form in form.sample_details %}
-                        <fieldset>
-                            {% for field in form %}
-                            <div class="fieldWrapper">
-                                {{ field.errors }}
-                                {{ field.label_tag }} {{ field }}
-                                {% if field.help_text %}
-                                <p class="help">{{ field.help_text|safe }}</p>
-                                {% endif %}
-                            </div>
-                            {% endfor %}
-                        </fieldset>
-                        {% endfor %} -->
                     {{ formset.management_form }}
                     <h2 class="mt-2">Testing Detail</h2>
-                    <!-- {% for form in form.testings %}
-                        <fieldset>
-                            {% for field in form %}
+                    <div class="row">
+                        <div class="col">
                             <div class="fieldWrapper">
-                                {{ field.errors }}
-                                {{ field.label_tag }} {{ field }}
-                                {% if field.help_text %}
-                                <p class="help">{{ field.help_text|safe }}</p>
-                                {% endif %}
+                                {{ form.product.label_tag }}
+                                {{ form.product }}
+                                {{ form.product.errors }}
                             </div>
-                            {% endfor %}
-                        </fieldset>
-                        {% endfor %} -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="fieldWrapper">
+                                {{ form.test_type.label_tag }}
+                                {{ form.test_type }}
+                                {{ form.test_type.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <table class="table table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Test Parameters</th>
+                                <th scope="col">Test Method</th>
+                                <th scope="col">Test Type</th>
+                                <th scope="col">Remove</th>
+                                <th scope="col">Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-primary mt-2" type="submit">Save</button>
+                </form>
+
             </div>
-
-            <table class="table table-bordered" id="myTable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Test Parameters</th>
-                        <th scope="col">Test Method</th>
-                        <th scope="col">Test Type</th>
-                        <th scope="col">Remove</th>
-                        <th scope="col">Priority</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <!-- <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary remove-row"
-                                        id="remove-button">Remove</button>
-
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary move-up" id="up-button">Up</button>
-                                    <button type="button" class="btn btn-primary move-down"
-                                        id="down-button">Down</button>
-                                    <input type="text" name="priority" id="priority" class="order" value="1"/>
-                                </td>
-                            </tr> -->
-
-                </tbody>
-            </table>
-
-            <button class="btn btn-primary mt-2" type="submit">Save</button>
-            </form>
-
         </div>
-    </div>
 
 
 </body>

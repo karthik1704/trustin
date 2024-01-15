@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from samples.models import Product, TestingParameter
+from samples.models import Product, TestType, TestingParameter
 
 class TestParaInline(admin.StackedInline):
 
@@ -17,4 +17,5 @@ class TestParaAdmin(admin.ModelAdmin):
     list_display=('testing_parameters', 'product')
 
 admin.site.register(Product, ProductAdmin)
+admin.site.register(TestType)
 admin.site.register(TestingParameter, TestParaAdmin)

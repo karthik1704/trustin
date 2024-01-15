@@ -23,13 +23,23 @@ BIO = "BIO"
 MECHNICAL = "MECHNICAL"
 PARA_TEST_TYPE = ((BIO, "Bio"), (MECHNICAL, "Mechnical"))
 
+class TestType(models.Model):
+    name = models.CharField( max_length=255)
+    description = models.TextField(blank=True, default="")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
+
 
 class TestingParameter(models.Model):
     branch = models.ForeignKey(
         Branch, related_name="parameter_branch", on_delete=models.CASCADE
     )
     parameter_code = models.CharField(max_length=255, editable=True)
-    test_type = models.CharField(choices=(PARA_TEST_TYPE), max_length=50)
+    test_type = models.ForeignKey(TestType, related_name='parameter_test_type', on_delete=models.DO_NOTHING, null=True)
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,

@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from branches.models import Branch
 from customers.models import ContactPerson, Customer, CustomerFollowUp
 from trf.models import TRF
-
+from accounts.config import ROLE_MARKETING
 
 # Register your models here.
 class ContactPersonAdmin(admin.StackedInline):
@@ -15,8 +15,8 @@ class ContactPersonAdmin(admin.StackedInline):
     fk_name = 'customer'
     can_delete=True
     
-    def has_add_permission(self, request, obj) -> bool:
-        return  True
+    # def has_add_permission(self, request, obj) -> bool:
+    #     return  True
 
 class CustomerAdmin(admin.ModelAdmin):
     search_fields = ("company_name", 'customer_code',)
@@ -73,6 +73,14 @@ class CustomerFollowUpAdmin(admin.ModelAdmin):
     # class Media:
     #     js = ('customers/js/custom_admin.js',)  
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        # Filter the queryset based on the currently logged-in user
+        if request.user:
+            if  request.user.role == ROLE_MARKETING:
+                return qs.filter(assign_to=request.user)
+        return qs
+
     def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
         mails = form.cleaned_data["customer"].email
         to_mail = mails.split(',')
@@ -91,8 +99,9 @@ class CustomerFollowUpAdmin(admin.ModelAdmin):
             marketing_status = form.cleaned_data["marketing_status"]
             if marketing_status == 'WON': 
                 branch = Branch.objects.get(pk=1)
-                TRF.objects.create(branch=branch, customer=obj.customer,)
-
+                instance , created = TRF.objects.get_or_create(branch=branch, customer=obj.customer, product=obj.sample)
+                if created:
+                    instance.save()
         if change:
             if form.initial["marketing_status"] != form.cleaned_data["marketing_status"]:
                 marketing_status = form.cleaned_data["marketing_status"]

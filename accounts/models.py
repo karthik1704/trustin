@@ -3,14 +3,14 @@ from django.db import models
 from django.db.models import Avg
 from django.utils.translation import gettext_lazy as _
 
-
+from accounts.config import ROLE_ANALYST, ROLE_ADMIN, ROLE_CHOICES, ROLE_HOD,ROLE_MANAGEMENT, ROLE_MARKETING
 from accounts.managers import (
     CustomUserManager,
     HodManager,
     AnalystManager,
     ManagementManager,
+    MarketingManager
 )
-
 
 # Create your models here.
 class MyUser(AbstractBaseUser, PermissionsMixin):
@@ -31,10 +31,9 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_("staff"), default=False)
     is_superuser = models.BooleanField(_("superuser"), default=False)
 
-    is_hod = models.BooleanField(_("HOD"), default=False)
-    is_analyst = models.BooleanField(_("Analyst"), default=False)
-    is_management = models.BooleanField(_("Management"), default=False)
+    role = models.CharField(_('Role'), choices=ROLE_CHOICES, default=ROLE_ADMIN)
 
+  
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
 
@@ -75,7 +74,18 @@ class Management(MyUser):
     objects = ManagementManager()
 
     def save(self, *args, **kwargs) -> None:
-        self.is_management = True
+        self.role = ROLE_MANAGEMENT
+        super().save(*args, **kwargs)
+
+
+class Marketing(MyUser):
+    class Meta:
+        proxy = True
+
+    objects = MarketingManager()
+
+    def save(self, *args, **kwargs) -> None:
+        self.role = ROLE_MARKETING
         super().save(*args, **kwargs)
 
 
@@ -86,7 +96,7 @@ class Hod(MyUser):
     objects = HodManager()
 
     def save(self, *args, **kwargs) -> None:
-        self.is_hod = True
+        self.role = ROLE_HOD
         super().save(*args, **kwargs)
 
 
@@ -97,5 +107,5 @@ class Analyst(MyUser):
     objects = AnalystManager()
 
     def save(self, *args, **kwargs) -> None:
-        self.is_analyst = True
+        self.role = ROLE_ANALYST
         super().save(*args, **kwargs)

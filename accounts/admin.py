@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from accounts.models import MyUser, Analyst, Hod, Management
+from accounts.models import MyUser, Analyst, Hod, Management, Marketing
 from accounts.forms import UserCreationForm, UserChangeForm
 
 # Register your models here.
@@ -29,12 +29,10 @@ class UserAdmin(BaseUserAdmin):
             "Permissions",
             {
                 "fields": [
+                    "role",
                     "is_superuser",
                     "is_staff",
-                    "is_management",
-                    "is_analyst",
-                    "is_hod",
-                    "is_active",
+                 
                 ]
             },
         ),
@@ -56,12 +54,10 @@ class UserAdmin(BaseUserAdmin):
             "Permissions",
             {
                 "fields": [
+                    'role',
                     "is_superuser",
                     "is_staff",
-                    "is_management",
-                    "is_analyst",
-                    "is_hod",
-                    "is_active",
+                  
                 ]
             },
         ),
@@ -78,9 +74,14 @@ class HodAdmin(UserAdmin):
 class ManagementAdmin(UserAdmin):
     list_display = ("email",)
     ordering = ("email",)  # Use the actual field in your model
+class MarketingAdmin(UserAdmin):
+    list_display = ("email",)
+    ordering = ("email",)  # Use the actual field in your model
+    read_only_fields = ('role',)
 
 
 admin.site.register(MyUser, UserAdmin)
 admin.site.register(Analyst, AnalystAdmin)
 admin.site.register(Hod, HodAdmin)
 admin.site.register(Management, ManagementAdmin)
+admin.site.register(Marketing, MarketingAdmin)
